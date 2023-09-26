@@ -1,0 +1,13 @@
+# Visual Studio Code
+.vscode/
+build/
+# CLion
+cmake-build-debug/
+# JetBrains
+.idea/
+# Compile
+.exe
+.o
+.a
+# MacOS
+**/.DS_Store
