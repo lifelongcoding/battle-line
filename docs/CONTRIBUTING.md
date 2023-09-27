@@ -105,13 +105,47 @@ You can also refer to Google's [Style Guide Repository](https://github.com/googl
 
 We encourage you to read and apply these guidelines to your code contributions, ensuring that your code aligns with the project's standards.
 
-## Commit Messages
+## Commit Message Convention
 
-When submitting code, please provide meaningful commit messages to help other developers and team members understand your changes. A good commit message should include:
+### Basic Format of Commit Messages
 
-- A concise description summarizing your changes.
-- Detailed explanations of why the change is necessary and how it was implemented.
-- References to relevant GitHub issues if applicable.
+To commit a message, you can use the following command:
+
+```shell
+git commit -m "<type>: <subject>"
+```
+
+- `<type>`: The type of the commit, for example, `feat`, `fix`, `docs`, etc.
+- `<subject>`: A concise description of the commit's purpose.
+
+### Commit Types (`<type>`)
+
+Here are common commit types and their meanings:
+
+- **feat**: Addition or modification of new features.
+- **fix**: Bug fixes.
+- **docs**: Documentation changes.
+- **style**: Code style and formatting changes (no substantive code changes).
+- **refactor**: Code refactoring without adding new features or bug fixes.
+- **test**: Changes related to testing.
+- **chore**: Changes related to build, tools, dependencies, etc.
+
+### Notes
+
+- The `<type>` in commit messages should be in lowercase.
+- `<subject>` should begin with an uppercase letter.
+
+### Example Commit Messages
+
+Here are some sample commit message formats for reference:
+
+```shell
+git commit -m "feat: Add user authentication feature"
+git commit -m "fix: Fix issue with login button not working"
+git commit -m "docs: Update installation guide in README"
+```
+
+We encourage you to emulate actual commits from the commit history to ensure that commit messages conform to the convention. This helps maintain readability and consistency in the commit history and facilitates better tracking of code changes.
 
 ## License
 
