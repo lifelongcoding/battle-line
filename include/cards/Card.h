@@ -11,4 +11,6 @@ public:
     inline explicit Card(CardType t) : cardType(t) {}
 
     inline CardType getType() const { return cardType; }
+
+    virtual void getInfo() const {}
 };

@@ -8,5 +8,7 @@ include_directories(include/cards)
 include_directories(include/piles)
 
 add_executable(battle_line
-        src/piles/Pile.cpp
-        )
+        main.cpp
+        src/cards/TroopCard.cpp
+        src/cards/TacticsCard.cpp
+        src/piles/Pile.cpp)
