@@ -11,4 +11,9 @@ add_executable(battle_line
         main.cpp
         src/cards/TroopCard.cpp
         src/cards/TacticsCard.cpp
-        src/piles/Pile.cpp)
+        src/Deck.cpp
+        src/piles/Pile.cpp
+        src/piles/TroopCardPile.cpp
+        src/piles/TacticsCardPile.cpp
+        src/piles/DiscardPile.cpp
+        )
