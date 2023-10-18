@@ -7,7 +7,7 @@ void Pile::shuffle() {
     std::shuffle(cards.begin(), cards.end(), g);
 }
 
-const Card &Pile::drawCard() {
+const Card& Pile::drawCard() {
     if (!cards.empty()) {
         const Card* lastCard = cards.back();
         cards.pop_back();

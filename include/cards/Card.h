@@ -12,5 +12,5 @@ public:
 
     inline CardType getType() const { return cardType; }
 
-    virtual void getInfo() const {}
+    virtual void getInfo() const = 0;
 };
