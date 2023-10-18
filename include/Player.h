@@ -24,5 +24,5 @@ public:
     size_t getId() const;
 
     void drawCard(Pile&);
-    void playCard(const Card&);
+    void playCard(size_t index);
 };

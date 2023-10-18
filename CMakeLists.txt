@@ -19,4 +19,5 @@ add_executable(battle_line
         src/piles/DiscardPile.cpp
         src/regions/Region.cpp
         src/Player.cpp
+        src/regions/RegionsManager.cpp
         )

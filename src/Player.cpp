@@ -12,5 +12,6 @@ void Player::drawCard(Pile& pile) {
     hands.push_back(&pile.drawCard());
 }
 
-void Player::playCard(const Card& cardToPlay) {
+void Player::playCard(size_t index) {
+
 }

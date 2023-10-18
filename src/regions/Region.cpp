@@ -70,6 +70,7 @@ void Region::displayCardsOfPlayer() const {
             card->getInfo();
             std::cout << ", ";
         }
+        std::cout << std::endl;
     }
 }
 
