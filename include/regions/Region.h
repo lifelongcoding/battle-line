@@ -9,11 +9,19 @@
 #include "TacticsCard.h"
 
 
+enum class FormationStrength {
+    HOST,
+    SKIRMISH,
+    BATTALION,
+    PHALANX,
+    WEDGE,
+};
+
 class Region {
 private:
     size_t MaxTroopCard = 3;
     const Player* owner = nullptr;
-    std::map<size_t , std::vector<const Card*>> player_cards;
+    std::map<size_t, std::vector<const Card*>> player_cards;
 
 public:
     const Player& getOwner() const;
@@ -26,9 +34,11 @@ public:
 
     bool addCard(const Player&, const Card&);
 
-    bool removeCard(const Player&, const Card&);
+    void removeCard(const Card&);
 
     void displayCardsOfPlayer() const;
 
     void displayOccupationInfo() const;
+
+    FormationStrength getFormationStrength(size_t) const;
 };
