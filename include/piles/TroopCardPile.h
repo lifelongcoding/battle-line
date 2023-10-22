@@ -6,5 +6,5 @@
 
 class TroopCardPile : public Pile {
 public:
-    TroopCardPile(const Deck&);
+    explicit TroopCardPile(const Deck&);
 };

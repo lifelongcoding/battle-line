@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Card.h"
+#include "TroopCard.h"
 #include <map>
 #include <string>
 
@@ -28,4 +29,16 @@ public:
     inline TacticsType getTacticsType() const { return tacticsType; }
 
     void getInfo() const override;
+};
+
+class SpecialTacticsCard : public TacticsCard {
+private:
+    Color color = Color::NONE;
+    Number number = Number::NONE;
+public:
+    inline explicit SpecialTacticsCard(TacticsType t) : TacticsCard(t) {}
+
+    void setColor(Color c) { color = c; }
+    void setNumber(Number n) { number = n; }
+    void setTypeToTroop() { cardType = CardType::TROOP_CARD; }
 };
