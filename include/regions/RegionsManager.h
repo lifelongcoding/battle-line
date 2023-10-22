@@ -27,6 +27,7 @@ public:
         return *regions[index];
     }
 
+    bool canPlaceTroopCard(const Player&) const;
 
     void displayRegionsInfo() const;
 };

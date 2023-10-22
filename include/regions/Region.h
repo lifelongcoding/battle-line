@@ -9,13 +9,7 @@
 #include "TacticsCard.h"
 
 
-enum class FormationStrength {
-    HOST,
-    SKIRMISH,
-    BATTALION,
-    PHALANX,
-    WEDGE,
-};
+enum class FormationStrength { HOST, SKIRMISH, BATTALION, PHALANX, WEDGE };
 
 class Region {
 private:
@@ -36,9 +30,15 @@ public:
 
     void removeCard(const Card&);
 
+    void setMaxTroopCard(size_t);
+
     void displayCardsOfPlayer() const;
 
     void displayOccupationInfo() const;
 
     FormationStrength getFormationStrength(size_t) const;
+
+    const Card& getCard(size_t playerId, size_t index) const {
+        return *player_cards.at(playerId)[index];
+    }
 };

@@ -68,6 +68,10 @@ void Region::removeCard(const Card& cardToRemove) {
     }
 }
 
+void Region::setMaxTroopCard(size_t num) {
+    MaxTroopCard = num;
+}
+
 void Region::displayCardsOfPlayer() const {
     for (auto& pair : player_cards) {
         auto& cards = pair.second;
