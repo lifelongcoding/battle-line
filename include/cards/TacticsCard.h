@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Card.h"
-#include "TroopCard.h"
 #include <map>
 #include <string>
+
+#include "Card.h"
+#include "TroopCard.h"
 
 
 enum class TacticsType { LEADER, COMPANION_CAVALRY, SHIELD_BEARERS, FOG, MUD, SCOUT, REDEPLOY, DESERTER, TRAITOR, ENUM_SIZE };
@@ -41,4 +42,9 @@ public:
     void setColor(Color c) { color = c; }
     void setNumber(Number n) { number = n; }
     void setTypeToTroop() { cardType = CardType::TROOP_CARD; }
+
+    Color getColor() const { return color; }
+    Number getNumber() const { return number; }
+
+    void getInfo() const override;
 };
