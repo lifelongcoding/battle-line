@@ -1,7 +1,7 @@
 #include "Region.h"
 
-const Player& Region::getOwner() const {
-    return *owner;
+const Player* Region::getOwner() const {
+    return owner;
 }
 
 void Region::claim(const Player& player) {

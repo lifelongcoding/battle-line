@@ -6,6 +6,8 @@
 #include <algorithm>
 
 #include "Player.h"
+#include "Card.h"
+#include "TroopCard.h"
 #include "TacticsCard.h"
 
 
@@ -18,7 +20,7 @@ private:
     std::map<size_t, std::vector<const Card*>> player_cards;
 
 public:
-    const Player& getOwner() const;
+    const Player* getOwner() const;
 
     bool isClaimable(const Player&) const;
 
@@ -40,5 +42,9 @@ public:
 
     const Card& getCard(size_t playerId, size_t index) const {
         return *player_cards.at(playerId)[index];
+    }
+
+    size_t getSize(size_t id) {
+        return player_cards.at(id).size();
     }
 };

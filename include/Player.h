@@ -17,6 +17,7 @@ public:
 
     std::string getName() const;
     size_t getId() const;
+    void getHandsInfo() const;
 
     void drawCard(Pile&);
     void playCard(size_t index);
@@ -27,6 +28,7 @@ public:
     }
 
     const Card& getCard(size_t index) const { return *hands[index]; }
+    const Card& getCard(size_t index) { return *hands[index]; }
 
     size_t getHandsSize() const { return hands.size(); }
 

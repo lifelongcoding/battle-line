@@ -30,4 +30,6 @@ public:
     bool canPlaceTroopCard(const Player&) const;
 
     void displayRegionsInfo() const;
+
+    size_t getRegionsCount() const { return regions.size(); }
 };

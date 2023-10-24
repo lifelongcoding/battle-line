@@ -4,25 +4,75 @@
 Deck::Deck() {
     for (Color color : EnumRange<Color>()) {
         for (Number number : EnumRange<Number>()) {
-            troopCards.push_back(new TroopCard(color, number));
+            auto tmp = new TroopCard(color, number);
+            tmp->setEffect(new TroopCardEffectStrategy);
+            troopCards.push_back(tmp);
         }
     }
 
     for (TacticsType tactics : EnumRange<TacticsType>()) {
-        if (tactics == TacticsType::LEADER) {
-            tacticsCards.push_back(new TacticsCard(TacticsType::LEADER));
-            tacticsCards.push_back(new TacticsCard(TacticsType::LEADER));
+        CardEffectStrategy* strategy = nullptr;
+        switch (tactics) {
+            case TacticsType::LEADER:
+                strategy = new LeaderTacticsEffectStrategy;
+                break;
+            case TacticsType::COMPANION_CAVALRY:
+                strategy = new CompanionCavalryEffectStrategy;
+                break;
+            case TacticsType::SHIELD_BEARERS:
+                strategy = new ShieldBearersTacticsEffectStrategy;
+                break;
+            case TacticsType::FOG:
+                strategy = new FogTacticsEffectStrategy;
+                break;
+            case TacticsType::MUD:
+                strategy = new MudTacticsEffectStrategy;
+                break;
+            case TacticsType::SCOUT:
+                strategy = new ScoutTacticsEffectStrategy;
+                break;
+            case TacticsType::REDEPLOY:
+                strategy = new RedeployTacticsEffectStrategy;
+                break;
+            case TacticsType::DESERTER:
+                strategy = new DeserterTacticsEffectStrategy;
+                break;
+            case TacticsType::TRAITOR:
+                strategy = new TraitorTacticsEffectStrategy;
+                break;
+            default:
+                break;
+        }
+
+        if (tactics == TacticsType::LEADER || tactics == TacticsType::COMPANION_CAVALRY || tactics == TacticsType::SHIELD_BEARERS) {
+            if (tactics == TacticsType::LEADER) {
+                auto card1 = new SpecialTacticsCard(TacticsType::LEADER);
+                card1->setEffect(strategy);
+                tacticsCards.push_back(card1);
+
+                // Creating a second instance for the LEADER card
+                auto card2 = new SpecialTacticsCard(TacticsType::LEADER);
+                card2->setEffect(new LeaderTacticsEffectStrategy);
+                tacticsCards.push_back(card2);
+            } else {
+                auto card = new SpecialTacticsCard(tactics);
+                card->setEffect(strategy);
+                tacticsCards.push_back(card);
+            }
         } else {
-            tacticsCards.push_back(new TacticsCard(tactics));
+            auto card = new TacticsCard(tactics);
+            card->setEffect(strategy);
+            tacticsCards.push_back(card);
         }
     }
 }
 
+
 Deck::~Deck() {
-    for (const Card* card : troopCards) {
+    for (auto& card : troopCards) {
         delete card;
     }
-    for (const Card* card : tacticsCards) {
+    for (auto& card : tacticsCards) {
         delete card;
     }
 }
