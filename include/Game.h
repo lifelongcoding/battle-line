@@ -21,7 +21,8 @@ private:
     DiscardPile discardPile;
 
     int currentPlayerIndex;
-    Card* currentCard = nullptr;
+    const Card* currentCard = nullptr;
+    int currentTurn = 0;
 
     Game() : regionsManager(9), deck(), troopCardPile(deck), tacticsCardPile(deck) {
         players.emplace_back(0, "Alice");
@@ -29,6 +30,11 @@ private:
         troopCardPile.shuffle();
         tacticsCardPile.shuffle();
         currentPlayerIndex = 0;
+
+        for (int i = 0; i < 7; i ++) {
+            players[0].drawCard(troopCardPile);
+            players[1].drawCard(troopCardPile);
+        }
     }
 
 public:
@@ -47,7 +53,7 @@ public:
 
     Player& getAnotherPlayer() { return players[(currentPlayerIndex + 1) % players.size()]; }
 
-    Card& getCurrentCard() { return *currentCard; }
+    const Card& getCurrentCard() { return *currentCard; }
 
     RegionsManager& getRegionsManager() { return regionsManager; }
 
@@ -57,11 +63,22 @@ public:
 
     DiscardPile& getDiscardPile() { return discardPile; }
 
+    int getCurrentTurn() { return currentTurn; }
+
+
     void playTurn();
 
     void nextTurn() {
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     }
-};
 
-Game* Game::instance = nullptr;
+    bool isGameOver();
+
+    void getInfo() {
+        players[0].getHandsInfo();
+        std::cout << std::endl;
+        players[1].getHandsInfo();
+        std::cout << std::endl;
+        regionsManager.displayRegionsInfo();
+    }
+};

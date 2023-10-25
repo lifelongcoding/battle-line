@@ -20,4 +20,7 @@ add_executable(battle_line
         src/regions/Region.cpp
         src/Player.cpp
         src/regions/RegionsManager.cpp
+        src/cards/CardEffectStrategy.cpp
+        src/InputHandler.cpp
+        src/Game.cpp
         )
