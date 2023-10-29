@@ -22,7 +22,7 @@ private:
 
     int currentPlayerIndex;
     const Card* currentCard = nullptr;
-    int currentTurn = 0;
+    int currentTurn = 1;
 
     Game() : regionsManager(9), deck(), troopCardPile(deck), tacticsCardPile(deck) {
         players.emplace_back(0, "Alice");
@@ -75,10 +75,13 @@ public:
     bool isGameOver();
 
     void getInfo() {
-        players[0].getHandsInfo();
+        std::cout << "current turn: " << currentTurn << '\t' << "current player: "
+            << players[currentPlayerIndex].getName() << std::endl;
+
+        std::cout << players[currentPlayerIndex].getName() << ": ";
+        players[currentPlayerIndex].getHandsInfo();
         std::cout << std::endl;
-        players[1].getHandsInfo();
-        std::cout << std::endl;
+
         regionsManager.displayRegionsInfo();
     }
 };

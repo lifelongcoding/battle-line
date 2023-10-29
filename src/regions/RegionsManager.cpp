@@ -11,10 +11,19 @@ bool RegionsManager::canPlaceTroopCard(const Player& player) const {
 void RegionsManager::displayRegionsInfo() const {
     for (size_t i = 0; i < regions.size(); i++) {
         Region* region = regions[i];
-        std::cout << "region: " << i << std::endl;
-        region->displayOccupationInfo();
-        std::cout << std::endl;
-        region->displayCardsOfPlayer();
-        std::cout << std::endl;
+        std::cout << "region: " << i << "\t";
     }
+    std::cout << std::endl;
+
+    for (auto& region : regions) {
+        region->displayOccupationInfo();
+        std::cout << "\t";
+    }
+    std::cout << std::endl;
+
+    for (auto& region : regions) {
+        region->displayCardsOfPlayer();
+        std::cout << "\t";
+    }
+    std::cout << std::endl;
 }
