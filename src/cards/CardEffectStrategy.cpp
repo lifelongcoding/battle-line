@@ -4,8 +4,13 @@
 void TroopCardEffectStrategy::executeEffect() const {
     Game* game = Game::getInstance();
     int choice = InputHandler::getChoice(1, 9, "Chose a region (1-9) to place the troop card: ");
-    Region& selectedRegion = game->getRegionsManager().getRegion(choice - 1);
-    selectedRegion.addCard(game->getCurrentPlayer(), game->getCurrentCard());
+    Region* selectedRegion = &game->getRegionsManager().getRegion(choice - 1);
+    const Player& currentPlayer = game->getCurrentPlayer();
+    while (selectedRegion->isFull(currentPlayer)) {
+        choice = InputHandler::getChoice(1, 9, "Chose a region (1-9) to place the troop card: ");
+        selectedRegion = &game->getRegionsManager().getRegion(choice - 1);
+    }
+    selectedRegion->addCard(currentPlayer, game->getCurrentCard());
 }
 
 void LeaderTacticsEffectStrategy::executeEffect() const {
@@ -100,11 +105,11 @@ void RedeployTacticsEffectStrategy::executeEffect() const {
 
 void DeserterTacticsEffectStrategy::executeEffect() const {
     Game* game = Game::getInstance();
-    int regionChoice = InputHandler::getChoice(1, 9, "Chose a region (1-9) which have the card you want to traitor: ");
+    int regionChoice = InputHandler::getChoice(1, 9, "Chose a region (1-9) which have the card you want to desert: ");
     Region& selectedRegion = game->getRegionsManager().getRegion(regionChoice - 1);
-    // 若是没牌，增加检测
+    // TODO: if this region do not have any cards, make a judgement
     int cardChoice = InputHandler::getChoice(1, selectedRegion.getSize(game->getAnotherPlayer().getId()), "Chose a card to desert: ");
-    const Card& selectedCard = selectedRegion.getCard(game->getAnotherPlayer().getId(), cardChoice);
+    const Card& selectedCard = selectedRegion.getCard(game->getAnotherPlayer().getId(), cardChoice - 1);
     selectedRegion.removeCard(selectedCard);
     game->getDiscardPile().addCard(selectedCard);
 }
@@ -113,9 +118,9 @@ void TraitorTacticsEffectStrategy::executeEffect() const {
     Game* game = Game::getInstance();
     int regionChoice = InputHandler::getChoice(1, 9, "Chose a region (1-9) to place the troop card: ");
     Region& selectedRegion = game->getRegionsManager().getRegion(regionChoice - 1);
-    // 若是没牌，增加检测
-    int cardChoice = InputHandler::getChoice(1, selectedRegion.getSize(game->getAnotherPlayer().getId()), "Chose a troop card to traitor: "); // 只考虑了部队卡的情况，没有考虑还有战术卡的情况
-    const Card& selectedCard = selectedRegion.getCard(game->getAnotherPlayer().getId(), cardChoice);
+    // TODO: if this region do not have any cards, make a judgement
+    int cardChoice = InputHandler::getChoice(1, selectedRegion.getSize(game->getAnotherPlayer().getId()), "Chose a troop card to traitor: "); // TODO: Only troop cards were considered, not tactical cards
+    const Card& selectedCard = selectedRegion.getCard(game->getAnotherPlayer().getId(), cardChoice - 1);
     selectedRegion.removeCard(selectedCard);
     selectedRegion.addCard(game->getCurrentPlayer(), selectedCard);
     game->getDiscardPile().addCard(game->getCurrentCard());
