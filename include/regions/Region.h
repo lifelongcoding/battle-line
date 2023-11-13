@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include "tuple"
 #include <algorithm>
 
 #include "Player.h"
@@ -10,6 +11,7 @@
 #include "TroopCard.h"
 #include "TacticsCard.h"
 
+using cardtype = std::tuple<Color, Number>;
 
 enum class FormationStrength { HOST, SKIRMISH, BATTALION, PHALANX, WEDGE };
 
@@ -28,7 +30,7 @@ public:
 
     void claim(const Player& player);
 
-    bool addCard(const Player&, const Card&);
+    void addCard(const Player&, const Card&);
 
     void removeCard(const Card&);
 
@@ -38,7 +40,13 @@ public:
 
     void displayOccupationInfo() const;
 
-    FormationStrength getFormationStrength(size_t) const;
+    static std::tuple<Color, Number> createTroopCardTuple(const TroopCard* card) ;
+
+    std::vector<std::tuple<Color, Number>> createRegionTuple(size_t id) const;
+
+    std::pair<FormationStrength, int> getFormationStrength(std::vector<cardtype>) const;
+
+    static std::vector<std::vector<std::tuple<Color, Number>>> predictFormationStrength(const std::vector<cardtype>&, const std::vector<const TroopCard*>&) ;
 
     const Card& getCard(size_t playerId, size_t index) const {
         return *player_cards.at(playerId)[index];
