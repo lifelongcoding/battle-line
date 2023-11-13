@@ -15,7 +15,6 @@ enum class TurnState {
     DECLARE_REGION,
     CHOOSE_REGION,
     DRAW_CARD,
-    SKIP_TURN,
     END_TURN
 };
 
@@ -35,7 +34,10 @@ private:
     int currentTurn = 1;
     int gameVersion = -1; // 0 for standard, 1 for tactical
 
-    Game() : regionsManager(9), deck(), troopCardPile(deck), tacticsCardPile(deck) {}
+    std::random_device rd;
+    std::mt19937 rng;
+
+    Game() : regionsManager(9), deck(), troopCardPile(deck), tacticsCardPile(deck), rng(rd()) {}
 
 public:
     static Game* getInstance() {
@@ -56,25 +58,14 @@ public:
     TroopCardPile& getTroopCardPile() { return troopCardPile; }
     TacticsCardPile& getTacticsCardPile() { return tacticsCardPile; }
     DiscardPile& getDiscardPile() { return discardPile; }
-
     int getCurrentTurn() const { return currentTurn; }
 
     void init();
-
     void playTurn();
-
-    void nextTurn() { currentPlayerIndex = (currentPlayerIndex + 1) % players.size(); }
-
+    void nextTurn();
     bool isGameOver();
 
-    void getInfo() {
-        std::cout << "current turn: " << getCurrentTurn() << '\t' << "current player: "
-            << players[currentPlayerIndex].getName() << std::endl;
+    void getInfo();
 
-        std::cout << players[currentPlayerIndex].getName() << ": ";
-        players[currentPlayerIndex].getHandsInfo();
-        std::cout << std::endl;
-
-        regionsManager.displayRegionsInfo();
-    }
+    int generateRandomNumber(int, int);
 };

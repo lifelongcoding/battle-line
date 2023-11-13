@@ -11,7 +11,7 @@ int main() {
         game->playTurn();
 
         if (game->isGameOver()) {
-            std::cout << game->getAnotherPlayer().getName() << "Win!";
+            std::cout << game->getCurrentPlayer().getName() << " Win!";
             break;
         }
 

@@ -6,12 +6,17 @@
 #include "Card.h"
 #include "Pile.h"
 
+enum class PlayerType {
+    HUMAN_PLAYER,
+    AI_PLAYER,
+};
 
 class Player {
 private:
     size_t id;
     std::string name;
     std::vector<const Card*> hands;
+    PlayerType playerType = PlayerType::HUMAN_PLAYER;
 public:
     Player(size_t i, std::string n) : id(i), name(std::move(n)) {}
 
@@ -34,4 +39,7 @@ public:
 
     bool hasTroopCard();
     bool hasTacticsCard();
+
+    void setPlayerType(PlayerType t) { playerType = t; }
+    PlayerType getPlayerType() const { return playerType; }
 };

@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(include)
 include_directories(include/cards)
 include_directories(include/piles)
+include_directories(include/players)
 include_directories(include/regions)
 
 add_executable(battle_line
@@ -18,7 +19,7 @@ add_executable(battle_line
         src/piles/TacticsCardPile.cpp
         src/piles/DiscardPile.cpp
         src/regions/Region.cpp
-        src/Player.cpp
+        src/players/Player.cpp
         src/regions/RegionsManager.cpp
         src/cards/CardEffectStrategy.cpp
         src/InputHandler.cpp

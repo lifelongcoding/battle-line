@@ -3,13 +3,24 @@
 
 void TroopCardEffectStrategy::executeEffect() const {
     Game* game = Game::getInstance();
-    int choice = InputHandler::getChoice(1, 9, "Chose a region (1-9) to place the troop card: ");
-    Region* selectedRegion = &game->getRegionsManager().getRegion(choice - 1);
     const Player& currentPlayer = game->getCurrentPlayer();
-    while (selectedRegion->isFull(currentPlayer)) {
-        choice = InputHandler::getChoice(1, 9, "Chose a region (1-9) to place the troop card: ");
+    bool isAi = (currentPlayer.getPlayerType() == PlayerType::AI_PLAYER);
+    int choice;
+    Region* selectedRegion = nullptr;
+
+    std::random_device rd;
+    std::mt19937 rng(rd());
+
+    do {
+        if (isAi) {
+            std::uniform_int_distribution<int> uni(1, 9);
+            choice = uni(rng);
+        } else {
+            choice = InputHandler::getChoice(1, 9, "Choose a region (1-9) to place the troop card: ");
+        }
         selectedRegion = &game->getRegionsManager().getRegion(choice - 1);
-    }
+    } while (selectedRegion->isFull(currentPlayer));
+
     selectedRegion->addCard(currentPlayer, game->getCurrentCard());
 }
 
