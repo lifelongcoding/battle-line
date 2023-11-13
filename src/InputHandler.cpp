@@ -15,3 +15,12 @@ int InputHandler::getChoice(int minChoice, int maxChoice, const std::string &pro
 
     return choice;
 }
+
+std::string InputHandler::getStringChoice(const std::string &prompt) {
+    std::cout << prompt;
+    std::string f;
+    std::cin >> f;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    return f;
+}

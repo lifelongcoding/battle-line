@@ -8,6 +8,16 @@
 #include "DiscardPile.h"
 #include "InputHandler.h"
 
+enum class TurnState {
+    START_TURN,
+    CHECK_INITIAL_CONDITIONS,
+    PLAY_CARD,
+    DECLARE_REGION,
+    CHOOSE_REGION,
+    DRAW_CARD,
+    SKIP_TURN,
+    END_TURN
+};
 
 class Game {
 private:
@@ -20,22 +30,12 @@ private:
     TacticsCardPile tacticsCardPile;
     DiscardPile discardPile;
 
-    int currentPlayerIndex;
     const Card* currentCard = nullptr;
+    int currentPlayerIndex = -1;
     int currentTurn = 1;
+    int gameVersion = -1; // 0 for standard, 1 for tactical
 
-    Game() : regionsManager(9), deck(), troopCardPile(deck), tacticsCardPile(deck) {
-        players.emplace_back(0, "Alice");
-        players.emplace_back(1, "Tommy");
-        troopCardPile.shuffle();
-        tacticsCardPile.shuffle();
-        currentPlayerIndex = 0;
-
-        for (int i = 0; i < 7; i ++) {
-            players[0].drawCard(troopCardPile);
-            players[1].drawCard(troopCardPile);
-        }
-    }
+    Game() : regionsManager(9), deck(), troopCardPile(deck), tacticsCardPile(deck) {}
 
 public:
     static Game* getInstance() {
@@ -50,32 +50,25 @@ public:
     Game& operator=(const Game&) = delete;
 
     Player& getCurrentPlayer() { return players[currentPlayerIndex]; }
-
     Player& getAnotherPlayer() { return players[(currentPlayerIndex + 1) % players.size()]; }
-
     const Card& getCurrentCard() { return *currentCard; }
-
     RegionsManager& getRegionsManager() { return regionsManager; }
-
     TroopCardPile& getTroopCardPile() { return troopCardPile; }
-
     TacticsCardPile& getTacticsCardPile() { return tacticsCardPile; }
-
     DiscardPile& getDiscardPile() { return discardPile; }
 
-    int getCurrentTurn() { return currentTurn; }
+    int getCurrentTurn() const { return currentTurn; }
 
+    void init();
 
     void playTurn();
 
-    void nextTurn() {
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-    }
+    void nextTurn() { currentPlayerIndex = (currentPlayerIndex + 1) % players.size(); }
 
     bool isGameOver();
 
     void getInfo() {
-        std::cout << "current turn: " << currentTurn << '\t' << "current player: "
+        std::cout << "current turn: " << getCurrentTurn() << '\t' << "current player: "
             << players[currentPlayerIndex].getName() << std::endl;
 
         std::cout << players[currentPlayerIndex].getName() << ": ";
