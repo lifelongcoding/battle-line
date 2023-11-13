@@ -1,10 +1,20 @@
 #include "Game.h"
+#include "Deck.h"
+#include "TroopCardPile.h"
+#include "Region.h"
 
 int main() {
     Game* game = Game::getInstance();
-    while (game->getCurrentTurn() < 10) {
+    game->init();
+    while (true) {
         game->getInfo();
         game->playTurn();
+
+        if (game->isGameOver()) {
+            std::cout << game->getAnotherPlayer().getName() << "Win!";
+            break;
+        }
+
         game->nextTurn();
     }
 
