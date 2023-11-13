@@ -20,6 +20,7 @@ private:
     size_t MaxTroopCard = 3;
     const Player* owner = nullptr;
     std::map<size_t, std::vector<const Card*>> player_cards;
+    const Player* lastOperator = nullptr;
 
 public:
     const Player* getOwner() const;

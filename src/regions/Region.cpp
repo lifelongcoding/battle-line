@@ -11,9 +11,15 @@ void Region::claim(const Player& player) {
 }
 
 bool Region::isClaimable(const Player& player) const {
-    std::vector<const TroopCard*> known_cards;
+    if (owner != nullptr || !isFull(player)) { return false; }
 
     size_t playerId = player.getId();
+    if (player_cards.count(playerId) == 0) {
+        return false;
+    }
+
+    std::vector<const TroopCard*> known_cards;
+
     auto currentPlayerCards = createRegionTuple(playerId);
     auto currentPlayerFormation = getFormationStrength(currentPlayerCards);
     std::vector<cardtype> otherPlayerCards;
@@ -24,18 +30,28 @@ bool Region::isClaimable(const Player& player) const {
     }
     if (otherPlayerCards.size() == MaxTroopCard) {
         auto otherPlayerFormation = getFormationStrength(otherPlayerCards);
-        if (otherPlayerFormation.first > currentPlayerFormation.first || otherPlayerFormation.first == currentPlayerFormation.first && otherPlayerFormation.second > currentPlayerFormation.second) {
+        if (otherPlayerFormation.first == currentPlayerFormation.first &&
+            otherPlayerFormation.second == currentPlayerFormation.second && lastOperator == &player) {
+            return false;
+        }
+
+        if (otherPlayerFormation.first > currentPlayerFormation.first ||
+            otherPlayerFormation.first == currentPlayerFormation.first &&
+            otherPlayerFormation.second > currentPlayerFormation.second) {
             return false;
         }
     } else {
-        auto possibleFormation = predictFormationStrength(otherPlayerCards, known_cards);
-        for (auto& com : possibleFormation) {
-            auto st = getFormationStrength(com);
-            if (st.first > currentPlayerFormation.first || st.first == currentPlayerFormation.first && st.second > currentPlayerFormation.second) {
-                return false;
-            }
-        }
+        return false;
     }
+//    } else {
+//        auto possibleFormation = predictFormationStrength(otherPlayerCards, known_cards);
+//        for (auto& com : possibleFormation) {
+//            auto st = getFormationStrength(com);
+//            if (st.first > currentPlayerFormation.first || st.first == currentPlayerFormation.first && st.second > currentPlayerFormation.second) {
+//                return false;
+//            }
+//        }
+//    }
 
     return true;
 }
@@ -64,6 +80,7 @@ void Region::addCard(const Player& player, const Card& card) {
     }
 
     player_cards[playerId].push_back(&card);
+    lastOperator = &player;
 }
 
 void Region::removeCard(const Card& cardToRemove) {
@@ -102,10 +119,6 @@ void Region::displayOccupationInfo() const {
 }
 
 std::pair<FormationStrength, int> Region::getFormationStrength(std::vector<cardtype> troopCards) const {
-    if (troopCards.size() != MaxTroopCard) {
-        throw std::runtime_error("Invalid number of cards.");
-    }
-
     bool sameColor = std::all_of(troopCards.begin() + 1, troopCards.end(),
                                  [&troopCards](const cardtype& card) {
                                      return std::get<0>(card) == std::get<0>(troopCards[0]);
@@ -147,10 +160,6 @@ std::tuple<Color, Number> Region::createTroopCardTuple(const TroopCard* card) {
 }
 
 std::vector<std::tuple<Color, Number>> Region::createRegionTuple(size_t id) const {
-    std::cout << id;
-    for (auto& pair : player_cards) {
-        std::cout << pair.first;
-    }
     const std::vector<const Card*>& cards = player_cards.at(id);
     std::vector<const TroopCard*> troopCards;
     for (const Card* card : cards) {
